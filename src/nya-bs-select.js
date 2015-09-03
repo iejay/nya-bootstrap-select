@@ -186,8 +186,8 @@ nyaBsSelect.directive('nyaBsSelect', ['$parse', '$document', '$timeout', 'nyaBsC
             return !value || value.length === 0;
           };
         }
-        if(typeof $attrs.disabled !== 'undefined') {
-          $scope.$watch($attrs.disabled, function(disabled){
+        if(typeof $attrs.disabled !== 'undefined' || typeof $attrs.ngDisabled !== 'undefined') {
+          $scope.$watch(function () { return $attrs.disabled; }, function(disabled){
             if(!!disabled) {
               dropdownToggle.addClass('disabled');
               previousTabIndex = dropdownToggle.attr('tabindex');

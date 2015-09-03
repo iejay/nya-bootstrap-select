@@ -375,4 +375,33 @@ describe('Features contains ngModel, option auto generate, etc;', function() {
     $timeout.flush();
     expect(selectElement.find('button').children().eq(0).text()).toBe('Beta');
   });
+
+  it('should work with ngDisabled and disabled directive in single selection mode', function() {
+    $scope.options = changeGroups(options);
+
+    $scope.isDisabled = false;
+    // single selection
+    var formElement = angular.element('<form name="testForm">' +
+    '<ol class="nya-bs-select" ng-model="model" ng-disabled="isDisabled">' +
+    '<li nya-bs-option="option in options group by option.group">' +
+    '<a>{{option.name}}</a>' +
+    '</li>' +
+    '</ol>' +
+    '</form>');
+    $compile(formElement)($scope);
+
+    var buttonElement = formElement.find('button');
+    $scope.$digest();
+
+    // should not have a disabled class
+    expect(buttonElement).not.toHaveClass('disabled')
+
+    // should have a disabled class
+
+    $scope.isDisabled = true;
+
+    $scope.$digest();
+
+    expect(buttonElement).toHaveClass('disabled')
+  });
 });
